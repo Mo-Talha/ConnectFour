@@ -8,14 +8,16 @@ class Board {
 	private:
 		
 		int board[column][row];
-		
+
 		Player activePlayer;
-		
+
 	public:
 
 		Board();
 
 		Board getVirtualBoard(int c);
+
+		Player getActivePlayer();
 
 		void print ();
 
@@ -23,9 +25,9 @@ class Board {
 
 		Player win();
 
-		void insertHuman(int c);
+		void insert(int c);
 
-		int minmax(Board board);
+		void insertHuman(int c);
 
 		void insertAI();
 
