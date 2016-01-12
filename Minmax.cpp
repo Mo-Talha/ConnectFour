@@ -1,4 +1,36 @@
+struct Node {
+	int score, move, depth;
+};
+
 int bestMove = 0;
+
+int numOfValidNodes(Board board){
+	int validMoves = 0;
+	for (int i = 0; i < column; i++){
+		if (board.valid(i)) validMoves++;
+	}
+	return validMoves;
+}
+
+Node maxNode(Node nodes[], int length){
+	Node highestScoreNode = nodes[0];
+	for (int i = 0; i < length; i++){
+		if (nodes[i].score > highestScoreNode.score){
+			highestScoreNode = nodes[i];
+		}
+	}
+	return highestScoreNode;
+}
+
+Node minNode(Node nodes[], int length){
+	Node lowestScoreNode = nodes[0];
+	for (int i = 0; i < length; i++){
+		if (nodes[i].score < lowestScoreNode.score){
+			lowestScoreNode = nodes[i];
+		}
+	}
+	return lowestScoreNode;
+}
 
 int score(Board board){
 	//Win = 1. Lose = -1. Draw = 0.
@@ -12,52 +44,62 @@ int score(Board board){
 	}
 }
 
-int minmax(Board board){
+int minmax(Board board, Node node){
+
+	//Print for debugging
+	board.print();
 
 	//If we reach a node where a player wins, return the win state
-	if (board.win() != NONE) return score(board);
+	if (board.win() != NONE || node.depth == 1) return score(board);
 
-	//Array that stores the score for each immediate possible move
-	int scores[column] = {0};
-	int scoresIndx = 0;
+	//Get number of valid moves and create relevant nodes
+	Node nodes[numOfValidNodes(board)];
+	int nodeIndx = 0;
 
-	//Array that stores the index for each immediate possible move
-	int moves[column] = {0};
-	int movesIndx = 0;
+	//Set depth to parent node
+	for (int i = 0; i < column; i++) nodes[i].depth = node.depth;
 
 	//Loop through each valid move
 	for (int c = 0; c < column; c++){
-		//If move is valid
 		if (board.valid(c)){
 
 			//Create new game state with valid move played
 			Board possibleGame = board.getVirtualBoard(c);
 
-			//Get relevant score for 'possibleGame' and store in score array
-			scores[scoresIndx++] = minmax(possibleGame);
+			//Incrament depth after virtual move played
+			nodes[nodeIndx].depth++;
 
-			//Store each valid move in move array
-			moves[movesIndx++] = c;
+			//Get relevant score for 'possibleGame' and store in node
+			nodes[nodeIndx].score = minmax(possibleGame, nodes[nodeIndx]);
+
+			//Store valid move in node
+			nodes[nodeIndx].move = c;
+
+			nodeIndx++;
 
 		}
 	}
 
 	//If it is AI's turn to move
-	//Maximize score
+	//Maximize score	
 	if (board.getActivePlayer() == AI){
 
-		//Max score index
-		int maxScoreIndx;
+		Node highestScoreNode = maxNode(nodes, nodeIndx + 1);
 
+		bestMove = highestScoreNode.move;
 
+		return highestScoreNode.score;
 
 	//If it is human's turn to move
+	//Minimize score
 	} else {
 
+		Node lowestScoreNode = minNode(nodes, nodeIndx + 1);
 
+		bestMove = lowestScoreNode.move;
+
+		return lowestScoreNode.score;
 
 	}
-
-
 
 }

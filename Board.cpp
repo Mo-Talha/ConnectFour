@@ -204,12 +204,19 @@ void Board::insertHuman(int c){
 }
 
 void Board::insertAI(){
-
 	activePlayer = AI;
 
+	//If player wins, exit
+	if (win() == HUMAN) return;
+
+	//Make parent node and initialize to 0
+	Node head;
+	head.score = 0;
+	head.move = 0;
+	head.depth = 0;
+
 	//Implement minMax algorithm to find best move
-	minmax(*this);
+	minmax(*this, head);
 
 	insert(bestMove);
-
 }
