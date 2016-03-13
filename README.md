@@ -1,14 +1,14 @@
-### ConnectFour
+# ConnectFour
 Connect Four AI.
 
-#Installation
+###Installation
 On Ubuntu or debian type linux
 
 ```bash
 sudo apt-get install g++
 ```
 
-#Running AI
+###Running AI
 Go to project root and tpye
 ```bash
 g++ ConnectFour.cpp -o ConnectFour
