@@ -1,7 +1,7 @@
 using namespace std;
 
 #include <iostream>
-#include "Board.cpp"
+#include "Board/Board.cpp"
 
 int main (){
 
