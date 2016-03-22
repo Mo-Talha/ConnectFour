@@ -1,5 +1,5 @@
 # ConnectFour
-Connect Four AI.
+Connect Four AI. Currently uses the Minmax algorithm. 
 
 ###Installation
 On Ubuntu or debian type linux
@@ -16,3 +16,8 @@ g++ ConnectFour.cpp -o ConnectFour
 
 Use ./NAME on linux.
 Use NAME.exe on windows.
+
+###AI Improvements
+The AI uses the minmax algorithm, however, many improvements can be made.
+Implement Alpha-beta pruning.
+Somehow fix algorithm to further differentiate bad and good moves. 
